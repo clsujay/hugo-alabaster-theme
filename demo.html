@@ -1,0 +1,43 @@
+
+    <h4>Filtering input: <input type="text" ng-model="searchText"></h4>
+    
+    <table class="table">
+      <tr>
+        <th>branchName</th>
+        <th>productName</th>
+        <th>prod Type Details</th> 
+      </tr> 
+      <tr class="animate-repeat" ng-repeat="item in productList | filter:searchText">
+        <td>{{ item.branchName }}</td>
+        <td>{{ item.productName }}</td>
+          <td>
+            <select ng-model="product"
+                ng-init="product = item.prodTypeDetails[0]"
+                ng-options="prod.name for prod in item.prodTypeDetails"  
+                id="emps"> 
+            </select>
+            <p style="white-space:pre-wrap;" ng-if="product">{{product.name}}</p><br/>
+            <input type="number" ng-model="product.qty" class="qty">
+        </td> 
+        <td>
+          <button class="btn-primary" ng-click="addItem(item,product.id)">Add to Cart</button></td>
+      </tr> 
+    </table>
+
+
+    <div class="row" style="padding:10px 30px;">
+            <h2>Your Cart:</h2>
+            <ul>
+              <li class="animate-repeat" ng-repeat="item in cart">
+                <span>{{ item.prodTypeDetails.qty + ' x ' + item.branchName + item.productName + item.prodTypeDetails.name + ' = ' + (getCost(item.prodTypeDetails)) }}</span>
+                <button class="btn-danger btn-xs" ng-click="removeItem(item);">Remove Item</button>
+                </br>
+                </br>
+              </li>
+            </ul>
+            <h3>Total: {{ getTotal() }}</h3>
+            <button class="btn-danger" ng-click="clearCart();">Clear Cart</button>
+          </div>
+ 
+
+    
